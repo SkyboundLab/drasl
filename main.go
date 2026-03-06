@@ -335,10 +335,15 @@ func (app *App) MakeServer() *echo.Echo {
 	authServerInfo := AuthServerInfo(app)
 	for _, prefix := range []string{"", "/auth", "/authlib-injector/authserver"} {
 		base.POST(prefix+"/authenticate", authAuthenticate)
+		base.HEAD(prefix+"/authenticate", authAuthenticate)
 		base.POST(prefix+"/invalidate", authInvalidate)
+		base.HEAD(prefix+"/invalidate", authInvalidate)
 		base.POST(prefix+"/refresh", authRefresh)
+		base.HEAD(prefix+"/refresh", authRefresh)
 		base.POST(prefix+"/signout", authSignout)
+		base.HEAD(prefix+"/signout", authSignout)
 		base.POST(prefix+"/validate", authValidate)
+		base.HEAD(prefix+"/validate", authValidate)
 	}
 	for _, route := range []string{"/auth", "/authlib-injector/authserver"} {
 		base.GET(route, authServerInfo)
