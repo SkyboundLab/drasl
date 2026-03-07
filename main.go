@@ -235,8 +235,15 @@ func (app *App) MakeServer() *echo.Echo {
 		e.GET("/", func(c echo.Context) error {
 			return c.Redirect(http.StatusSeeOther, app.FrontEndURL)
 		})
+		e.HEAD("/", func(c echo.Context) error {
+			return c.Redirect(http.StatusSeeOther, app.FrontEndURL)
+		})
+		e.POST("/", func(c echo.Context) error {
+			return c.Redirect(http.StatusSeeOther, app.FrontEndURL)
+		})
 
 		base.GET("", FrontRoot(app))
+		base.HEAD("", FrontRoot(app))
 		web := base.Group("/web")
 		web.GET("/admin", FrontAdmin(app))
 		web.GET("/complete-registration", FrontCompleteRegistration(app))
@@ -320,7 +327,9 @@ func (app *App) MakeServer() *echo.Echo {
 
 	// authlib-injector
 	base.GET("/authlib-injector", AuthlibInjectorRoot(app))
+	base.HEAD("/authlib-injector", AuthlibInjectorRoot(app))
 	base.GET("/authlib-injector/", AuthlibInjectorRoot(app))
+	base.HEAD("/authlib-injector/", AuthlibInjectorRoot(app))
 	base.PUT("/authlib-injector/api/user/profile/:id/skin", app.AuthlibInjectorUploadTexture(TextureTypeSkin))
 	base.PUT("/authlib-injector/api/user/profile/:id/cape", app.AuthlibInjectorUploadTexture(TextureTypeCape))
 	base.DELETE("/authlib-injector/api/user/profile/:id/skin", app.AuthlibInjectorDeleteTexture(TextureTypeSkin))
@@ -347,6 +356,7 @@ func (app *App) MakeServer() *echo.Echo {
 	}
 	for _, route := range []string{"/auth", "/authlib-injector/authserver"} {
 		base.GET(route, authServerInfo)
+		base.HEAD(route, authServerInfo)
 	}
 
 	// Account
